@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">TestApp</string>
+    <string name="app_name">Новини короновірус</string>
+    <string name="hint_username">Логін</string>
+    <string name="hint_password">Пароль</string>
+    <string name="button_next">Далі</string>
+    <string name="button_cancel">Скасувати</string>
 </resources>

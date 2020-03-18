@@ -23,24 +23,30 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if (savedInstanceState == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.container, new LoginFragment())
+                    .commit();
+        }
 
 
-        btnRegister = findViewById(R.id.btnGoRegister);
+        //btnRegister = findViewById(R.id.btnGoRegister);
 
         // создаем обработчик нажатия
-        View.OnClickListener oclBtnRegister = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Меняем текст в TextView (tvOut)
-//                Toast.makeText(MainActivity.this,
-//                        "Перехід на реєстрацію",Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
-                startActivity(intent);
-            }
-        };
-
-        // присвоим обработчик кнопке OK (btnOk)
-        btnRegister.setOnClickListener(oclBtnRegister);
+//        View.OnClickListener oclBtnRegister = new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // Меняем текст в TextView (tvOut)
+////                Toast.makeText(MainActivity.this,
+////                        "Перехід на реєстрацію",Toast.LENGTH_LONG).show();
+//                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+//                startActivity(intent);
+//            }
+//        };
+//
+//        // присвоим обработчик кнопке OK (btnOk)
+//        btnRegister.setOnClickListener(oclBtnRegister);
     }
 
     public void onButtonClick(View view) {
