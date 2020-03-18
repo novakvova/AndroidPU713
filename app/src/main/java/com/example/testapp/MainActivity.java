@@ -1,18 +1,19 @@
 package com.example.testapp;
 
 import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,6 +22,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
         btnRegister = findViewById(R.id.btnGoRegister);
 
         // создаем обработчик нажатия
@@ -40,13 +44,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onButtonClick(View view) {
-        EditText editText = findViewById(R.id.txtName);
-        TextView textView = findViewById(R.id.vtInfo);
-        String name=editText.getText().toString();
-        textView.setText(name);
 
-        Toast.makeText(this,
-                name,Toast.LENGTH_LONG).show();
+        new MaterialAlertDialogBuilder(MainActivity.this)
+                .setTitle("Title")
+                .setMessage("Your message goes here. Keep it short but clear.")
+                .setPositiveButton("GOT IT", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .show();
+//        EditText editText = findViewById(R.id.txtName);
+//        TextView textView = findViewById(R.id.vtInfo);
+//        String name=editText.getText().toString();
+//        textView.setText(name);
+//
+//        Toast.makeText(this,
+//                name,Toast.LENGTH_LONG).show();
     }
 
     @Override
