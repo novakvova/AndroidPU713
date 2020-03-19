@@ -82,11 +82,14 @@ public class MainActivity extends AppCompatActivity implements NavigationHost{
                 startActivity(intent);
             }
             case R.id.register: {
-                intent = new Intent(this, RegisterActivity.class);
-                startActivity(intent);
+//                intent = new Intent(this, RegisterActivity.class);
+//                startActivity(intent);
+                this.navigateTo(new RegisterFragment(), false);
+                return true;
             }
             case R.id.login: {
                 this.navigateTo(new LoginFragment(), false);
+                return true;
             }
             default:
             return super.onOptionsItemSelected(item);
