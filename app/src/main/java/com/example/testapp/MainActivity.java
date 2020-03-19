@@ -8,6 +8,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,12 +19,13 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MyActivity";
     Button btnRegister;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Log.v(TAG, "--------------------onCreate--------------------");
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -47,6 +50,36 @@ public class MainActivity extends AppCompatActivity {
 //
 //        // присвоим обработчик кнопке OK (btnOk)
 //        btnRegister.setOnClickListener(oclBtnRegister);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "----------MainActivity: onStart()-------------");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.v(TAG, "---------------MainActivity: onResume()---------------");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.v(TAG, "----------------MainActivity: onPause()----------------");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.v(TAG, "-------------MainActivity: onStop()-----------------");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.v(TAG, "---------------MainActivity: onDestroy()-------------------");
     }
 
     public void onButtonClick(View view) {
