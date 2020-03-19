@@ -10,4 +10,7 @@
         android:title="Реєстрація"
         app:showAsAction="never" />
 
+    <item android:id="@+id/login"
+        android:title="Логін"
+        app:showAsAction="never" />
 </menu>

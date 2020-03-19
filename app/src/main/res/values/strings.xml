@@ -4,4 +4,7 @@
     <string name="hint_password">Пароль</string>
     <string name="button_next">Далі</string>
     <string name="button_cancel">Скасувати</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

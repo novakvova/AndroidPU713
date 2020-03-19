@@ -3,6 +3,8 @@ package com.example.testapp;
 import androidx.annotation.NonNull;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,7 +19,7 @@ import android.view.View;
 import android.widget.Button;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationHost{
 
     private static final String TAG = "MyActivity";
     Button btnRegister;
@@ -32,24 +34,6 @@ public class MainActivity extends AppCompatActivity {
                     .add(R.id.container, new LoginFragment())
                     .commit();
         }
-
-
-        //btnRegister = findViewById(R.id.btnGoRegister);
-
-        // создаем обработчик нажатия
-//        View.OnClickListener oclBtnRegister = new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Меняем текст в TextView (tvOut)
-////                Toast.makeText(MainActivity.this,
-////                        "Перехід на реєстрацію",Toast.LENGTH_LONG).show();
-//                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
-//                startActivity(intent);
-//            }
-//        };
-//
-//        // присвоим обработчик кнопке OK (btnOk)
-//        btnRegister.setOnClickListener(oclBtnRegister);
     }
 
     @Override
@@ -82,33 +66,6 @@ public class MainActivity extends AppCompatActivity {
         Log.v(TAG, "---------------MainActivity: onDestroy()-------------------");
     }
 
-    public void onButtonClick(View view) {
-
-        new MaterialAlertDialogBuilder(MainActivity.this)
-                .setTitle("Title")
-                .setMessage("Your message goes here. Keep it short but clear.")
-                .setPositiveButton("GOT IT", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                })
-                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                })
-                .show();
-//        EditText editText = findViewById(R.id.txtName);
-//        TextView textView = findViewById(R.id.vtInfo);
-//        String name=editText.getText().toString();
-//        textView.setText(name);
-//
-//        Toast.makeText(this,
-//                name,Toast.LENGTH_LONG).show();
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -128,8 +85,25 @@ public class MainActivity extends AppCompatActivity {
                 intent = new Intent(this, RegisterActivity.class);
                 startActivity(intent);
             }
+            case R.id.login: {
+                this.navigateTo(new LoginFragment(), false);
+            }
             default:
             return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void navigateTo(Fragment fragment, boolean addToBackstack) {
+        FragmentTransaction transaction =
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.container, fragment);
+
+        if (addToBackstack) {
+            transaction.addToBackStack(null);
+        }
+
+        transaction.commit();
     }
 }

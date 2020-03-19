@@ -41,7 +41,7 @@ public class LoginFragment extends Fragment {
                     passwordTextInput.setError("Вкажіть пароль");
                 } else {
                     passwordTextInput.setError(null); // Clear the error
-                    //((NavigationHost) getActivity()).navigateTo(new ProductGridFragment(), false); // Navigate to the next Fragment
+                    ((NavigationHost) getActivity()).navigateTo(new NewsFragment(), false); // Navigate to the next Fragment
                 }
             }
         });
