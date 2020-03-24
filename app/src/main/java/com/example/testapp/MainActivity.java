@@ -8,7 +8,12 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
+
+import com.example.testapp.network.ProductEntry;
+import com.example.testapp.retrofitProduct.ProductDTO;
+import com.example.testapp.retrofitProduct.ProductDTOService;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import android.util.Log;
@@ -18,53 +23,32 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class MainActivity extends AppCompatActivity implements NavigationHost{
 
-    private static final String TAG = "MyActivity";
+    private static final String TAG = MainActivity.class.getSimpleName();
+
     Button btnRegister;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.v(TAG, "--------------------onCreate--------------------");
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.container, new LoginFragment())
                     .commit();
         }
+
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(TAG, "----------MainActivity: onStart()-------------");
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.v(TAG, "---------------MainActivity: onResume()---------------");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.v(TAG, "----------------MainActivity: onPause()----------------");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.v(TAG, "-------------MainActivity: onStop()-----------------");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.v(TAG, "---------------MainActivity: onDestroy()-------------------");
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

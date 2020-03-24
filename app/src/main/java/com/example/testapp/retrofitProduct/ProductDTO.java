@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class ProductDTO {
+
     @SerializedName("title")
     @Expose
     private String title;
@@ -36,6 +37,15 @@ public class ProductDTO {
 
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductDTO{" +
+                "title='" + title + '\'' +
+                ", url='" + url + '\'' +
+                ", price='" + price + '\'' +
+                '}';
     }
 }
 

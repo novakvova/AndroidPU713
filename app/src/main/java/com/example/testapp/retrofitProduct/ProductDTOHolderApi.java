@@ -6,6 +6,6 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface ProductDTOHolderApi {
-    @GET("/products")
+    @GET("products")
     public Call<List<ProductDTO>> getAllProducts();
 }
