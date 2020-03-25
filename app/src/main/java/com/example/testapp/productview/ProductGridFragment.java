@@ -44,19 +44,15 @@ public class ProductGridFragment extends Fragment {
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2,
                 GridLayoutManager.VERTICAL, false));
 
-        List<ProductEntry> list = ProductEntry.initProductEntryList(getResources());
-        ProductCardRecyclerViewAdapter adapter = new ProductCardRecyclerViewAdapter(list);
-
-        recyclerView.setAdapter(adapter);
+//        List<ProductEntry> list = ProductEntry.initProductEntryList(getResources());
+//        ProductCardRecyclerViewAdapter adapter = new ProductCardRecyclerViewAdapter(list);
+//
+//        recyclerView.setAdapter(adapter);
 
         int largePadding = getResources().getDimensionPixelSize(R.dimen.shr_product_grid_spacing);
         int smallPadding = getResources().getDimensionPixelSize(R.dimen.shr_product_grid_spacing_small);
 
         recyclerView.addItemDecoration(new ProductGridItemDecoration(largePadding, smallPadding));
-
-
-
-
         ProductDTOService.getInstance()
                 .getJSONApi()
                 .getAllProducts()
