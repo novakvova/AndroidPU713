@@ -47,7 +47,7 @@ public class ProductGridFragment extends Fragment {
 //        List<ProductEntry> list = ProductEntry.initProductEntryList(getResources());
 //        ProductCardRecyclerViewAdapter adapter = new ProductCardRecyclerViewAdapter(list);
 //
-//        recyclerView.setAdapter(adapter);
+//        recyclerView.set  Adapter(adapter);
 
         int largePadding = getResources().getDimensionPixelSize(R.dimen.shr_product_grid_spacing);
         int smallPadding = getResources().getDimensionPixelSize(R.dimen.shr_product_grid_spacing_small);

@@ -14,6 +14,7 @@ import android.os.Bundle;
 import com.example.testapp.network.ProductEntry;
 import com.example.testapp.retrofitProduct.ProductDTO;
 import com.example.testapp.retrofitProduct.ProductDTOService;
+import com.example.testapp.userview.UserGridFragment;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import android.util.Log;
@@ -75,6 +76,9 @@ public class MainActivity extends AppCompatActivity implements NavigationHost{
                 this.navigateTo(new LoginFragment(), false);
                 return true;
             }
+            case R.id.users:
+                this.navigateTo(new UserGridFragment(), false); // Navigate to the next Fragment
+                return true;
             default:
             return super.onOptionsItemSelected(item);
         }
