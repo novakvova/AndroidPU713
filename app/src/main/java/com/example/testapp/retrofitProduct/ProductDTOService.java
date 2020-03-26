@@ -1,9 +1,14 @@
 package com.example.testapp.retrofitProduct;
 
+import android.content.Context;
+
+import com.example.testapp.utilsintrnet.ConnectivityInterceptor;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
 
 public class ProductDTOService {
     private static ProductDTOService mInstance;
@@ -11,10 +16,12 @@ public class ProductDTOService {
     private Retrofit mRetrofit;
 
     private ProductDTOService() {
+
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient.Builder client = new OkHttpClient.Builder()
+                .addInterceptor(new ConnectivityInterceptor())
                 .addInterceptor(interceptor);
 
         mRetrofit = new Retrofit.Builder()

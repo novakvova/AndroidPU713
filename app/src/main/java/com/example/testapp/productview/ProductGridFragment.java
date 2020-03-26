@@ -1,5 +1,8 @@
 package com.example.testapp.productview;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -7,15 +10,20 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.testapp.ErrorFragment;
+import com.example.testapp.NavigationHost;
 import com.example.testapp.R;
 import com.example.testapp.network.ProductEntry;
 import com.example.testapp.retrofitProduct.ProductDTO;
 import com.example.testapp.retrofitProduct.ProductDTOService;
+import com.example.testapp.utilsintrnet.NoConnectivityException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +36,8 @@ public class ProductGridFragment extends Fragment {
 
     private static final String TAG = ProductGridFragment.class.getSimpleName();
     private RecyclerView recyclerView;
+    Handler h;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +61,8 @@ public class ProductGridFragment extends Fragment {
 
         int largePadding = getResources().getDimensionPixelSize(R.dimen.shr_product_grid_spacing);
         int smallPadding = getResources().getDimensionPixelSize(R.dimen.shr_product_grid_spacing_small);
-
         recyclerView.addItemDecoration(new ProductGridItemDecoration(largePadding, smallPadding));
+        h = new Handler();
         ProductDTOService.getInstance()
                 .getJSONApi()
                 .getAllProducts()
@@ -61,12 +71,12 @@ public class ProductGridFragment extends Fragment {
                     public void onResponse(@NonNull Call<List<ProductDTO>> call, @NonNull Response<List<ProductDTO>> response) {
                         List<ProductDTO> list = response.body();
                         //int size = list.size();
-                        String res= list.get(0).toString();
-                        Log.d(TAG, "--------result server-------"+res);
+                        String res = list.get(0).toString();
+                        Log.d(TAG, "--------result server-------" + res);
 
                         List<ProductEntry> newlist = new ArrayList<ProductEntry>();//ProductEntry.initProductEntryList(getResources());
                         for (ProductDTO item : list) {
-                            ProductEntry pe=new ProductEntry(item.getTitle(),item.getUrl(),item.getUrl(), item.getPrice(),"sdfasd");
+                            ProductEntry pe = new ProductEntry(item.getTitle(), item.getUrl(), item.getUrl(), item.getPrice(), "sdfasd");
                             newlist.add(pe);
                         }
                         ProductCardRecyclerViewAdapter newAdapter = new ProductCardRecyclerViewAdapter(newlist);
@@ -76,15 +86,24 @@ public class ProductGridFragment extends Fragment {
 
                     @Override
                     public void onFailure(@NonNull Call<List<ProductDTO>> call, @NonNull Throwable t) {
-
-                        t.printStackTrace();
+                        if (t instanceof NoConnectivityException) {
+                            Log.d(TAG, "------------------------------ffffffffffffffffffffffffffffffffff-----------------");
+                            // показываем информацию
+                            h.post(showError);
+                        }
                     }
                 });
         Log.d(TAG, "----------Hello my friends-------------");
 
 
-
-
         return view;
     }
+    // обновление ProgressBar
+    Runnable showError = new Runnable() {
+        public void run() {
+            ((NavigationHost) getActivity()).navigateTo(new ErrorFragment(), false); // Navigate to the next Fragment
+            //Toast.makeText(getActivity().getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+
+        }
+    };
 }
