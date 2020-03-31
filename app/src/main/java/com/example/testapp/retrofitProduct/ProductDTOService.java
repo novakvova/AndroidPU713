@@ -20,17 +20,15 @@ import java.io.IOException;
 
 
 public class ProductDTOService {
-    private final Context context;
     private static ProductDTOService mInstance;
     private static final String BASE_URL = "https://covidandroid.azurewebsites.net/api/";
     private Retrofit mRetrofit;
 
     private ProductDTOService() {
-        context = CovidApplication.getAppContext();
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        CovidApplication myApp=(CovidApplication)context.getApplicationContext();
+        CovidApplication myApp=(CovidApplication)CovidApplication.getAppContext();
         final String token= "Bearer "+((JwtServiceHolder)myApp.getCurrentActivity()).getToken();
 
         Interceptor interJWT = new Interceptor() {

@@ -16,6 +16,7 @@ import android.os.Bundle;
 import com.example.testapp.account.JwtServiceHolder;
 import com.example.testapp.application.CovidApplication;
 import com.example.testapp.network.ProductEntry;
+import com.example.testapp.productview.ProductGridFragment;
 import com.example.testapp.retrofitProduct.ProductDTO;
 import com.example.testapp.retrofitProduct.ProductDTOService;
 import com.example.testapp.userview.UserGridFragment;
@@ -38,27 +39,32 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity implements NavigationHost, JwtServiceHolder {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    protected CovidApplication mMyApp;
 
     Button btnRegister;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mMyApp = (CovidApplication)this.getApplicationContext();
+
+        CovidApplication myApp=(CovidApplication)CovidApplication.getAppContext();
+        myApp.setCurrentActivity(this);
+
         setContentView(R.layout.activity_main);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.container, new LoginFragment())
-                    .commit();
+        if(savedInstanceState == null) {
+            String token = this.getToken();
+            if (token != null) {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.container, new ProductGridFragment())
+                        .commit();
+            } else {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.container, new LoginFragment())
+                        .commit();
+            }
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mMyApp.setCurrentActivity(this);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
