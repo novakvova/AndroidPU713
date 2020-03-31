@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements NavigationHost, J
         }
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

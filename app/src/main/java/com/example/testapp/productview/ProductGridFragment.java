@@ -23,6 +23,7 @@ import com.example.testapp.R;
 import com.example.testapp.network.ProductEntry;
 import com.example.testapp.retrofitProduct.ProductDTO;
 import com.example.testapp.retrofitProduct.ProductDTOService;
+import com.example.testapp.utils.CommonUtils;
 import com.example.testapp.utilsintrnet.NoConnectivityException;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class ProductGridFragment extends Fragment {
 
     private static final String TAG = ProductGridFragment.class.getSimpleName();
     private RecyclerView recyclerView;
-    Handler h;
+    //Handler h;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,13 +63,15 @@ public class ProductGridFragment extends Fragment {
         int largePadding = getResources().getDimensionPixelSize(R.dimen.shr_product_grid_spacing);
         int smallPadding = getResources().getDimensionPixelSize(R.dimen.shr_product_grid_spacing_small);
         recyclerView.addItemDecoration(new ProductGridItemDecoration(largePadding, smallPadding));
-        h = new Handler();
+        //h = new Handler();
+        CommonUtils.showLoading(getActivity());
         ProductDTOService.getInstance()
                 .getJSONApi()
                 .getAllProducts()
                 .enqueue(new Callback<List<ProductDTO>>() {
                     @Override
                     public void onResponse(@NonNull Call<List<ProductDTO>> call, @NonNull Response<List<ProductDTO>> response) {
+                        CommonUtils.hideLoading();
                         List<ProductDTO> list = response.body();
                         //int size = list.size();
                         String res = list.get(0).toString();
@@ -86,10 +89,12 @@ public class ProductGridFragment extends Fragment {
 
                     @Override
                     public void onFailure(@NonNull Call<List<ProductDTO>> call, @NonNull Throwable t) {
+                        CommonUtils.hideLoading();
                         if (t instanceof NoConnectivityException) {
                             Log.d(TAG, "------------------------------ffffffffffffffffffffffffffffffffff-----------------");
+                            ((NavigationHost) getActivity()).navigateTo(new ErrorFragment(), false); // Navigate to the next Fragment
                             // показываем информацию
-                            h.post(showError);
+                            //h.post(showError);
                         }
                     }
                 });
@@ -98,12 +103,5 @@ public class ProductGridFragment extends Fragment {
 
         return view;
     }
-    // обновление ProgressBar
-    Runnable showError = new Runnable() {
-        public void run() {
-            ((NavigationHost) getActivity()).navigateTo(new ErrorFragment(), false); // Navigate to the next Fragment
-            //Toast.makeText(getActivity().getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
 
-        }
-    };
 }
