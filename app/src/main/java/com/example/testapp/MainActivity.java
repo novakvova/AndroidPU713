@@ -36,22 +36,19 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationHost, JwtServiceHolder {
+public class MainActivity extends BaseActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    Button btnRegister;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        CovidApplication myApp=(CovidApplication)CovidApplication.getAppContext();
-        myApp.setCurrentActivity(this);
 
         setContentView(R.layout.activity_main);
         if(savedInstanceState == null) {
             String token = this.getToken();
-            if (token != null) {
+            if (token != null || token.equals("")) {
                 getSupportFragmentManager()
                         .beginTransaction()
                         .add(R.id.container, new ProductGridFragment())
@@ -77,63 +74,32 @@ public class MainActivity extends AppCompatActivity implements NavigationHost, J
         Intent intent;
         switch (item.getItemId()) {
             case R.id.home: {
-                intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
+                this.navigateTo(new ProductGridFragment(), false); // Navigate to the next Fragment
+                //intent = new Intent(this, MainActivity.class);
+                //startActivity(intent);
+                return true;
             }
             case R.id.register: {
 //                intent = new Intent(this, RegisterActivity.class);
 //                startActivity(intent);
-                this.navigateTo(new RegisterFragment(), false);
+                //this.navigateTo(new RegisterFragment(), false);
                 return true;
             }
             case R.id.login: {
-                this.navigateTo(new LoginFragment(), false);
+                this.navigateTo(new LoginFragment(), true);
                 return true;
             }
             case R.id.users:
-                this.navigateTo(new UserGridFragment(), false); // Navigate to the next Fragment
+                this.navigateTo(new UserGridFragment(), true); // Navigate to the next Fragment
+                return true;
+            case R.id.logout:
+                removeToken();
+                this.navigateTo(new LoginFragment(), false); // Navigate to the next Fragment
                 return true;
             default:
             return super.onOptionsItemSelected(item);
         }
     }
 
-    @Override
-    public void navigateTo(Fragment fragment, boolean addToBackstack) {
-        FragmentTransaction transaction =
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.container, fragment);
 
-        if (addToBackstack) {
-            transaction.addToBackStack(null);
-        }
-
-        transaction.commit();
-    }
-
-    @Override
-    public void SaveJWTToken(String token) {
-        SharedPreferences prefs;
-        SharedPreferences.Editor edit;
-        prefs=this.getSharedPreferences("jwtStore", Context.MODE_PRIVATE);
-        edit=prefs.edit();
-        try {
-
-            edit.putString("token",token);
-            Log.i("Login",token);
-            edit.commit();
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public String getToken() {
-        SharedPreferences prefs=this.getSharedPreferences("jwtStore",Context.MODE_PRIVATE);
-        String token = prefs.getString("token","");
-        return token;
-    }
 }

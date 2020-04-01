@@ -1,6 +1,7 @@
 package com.example.testapp.account;
 
 public interface JwtServiceHolder {
-    void SaveJWTToken(String token);
+    void saveJWTToken(String token);
     String getToken();
+    void removeToken();
 }

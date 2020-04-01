@@ -72,7 +72,7 @@ public class LoginFragment extends Fragment {
                                 public void onResponse(@NonNull Call<TokenDTO> call, @NonNull Response<TokenDTO> response) {
                                     if(response.isSuccessful()) {
                                         TokenDTO tokenDTO = response.body();
-                                        ((JwtServiceHolder) getActivity()).SaveJWTToken(tokenDTO.getToken()); // Navigate to the register Fragment
+                                        ((JwtServiceHolder) getActivity()).saveJWTToken(tokenDTO.getToken()); // Navigate to the register Fragment
                                         ((NavigationHost) getActivity()).navigateTo(new ProductGridFragment(), false); // Navigate to the products Fragment
                                         Log.e(TAG,"*************GOOD Request***********"+ tokenDTO.getToken());
                                     }

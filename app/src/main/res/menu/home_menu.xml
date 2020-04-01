@@ -17,4 +17,8 @@
     <item android:id="@+id/users"
         android:title="Користувачі"
         app:showAsAction="never" />
+
+    <item android:id="@+id/logout"
+        android:title="Вихід"
+        app:showAsAction="never" />
 </menu>
