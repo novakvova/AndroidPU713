@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.testapp.ErrorFragment;
 import com.example.testapp.NavigationHost;
@@ -89,8 +91,16 @@ public class ProductGridFragment extends Fragment {
                 });
         Log.d(TAG, "----------Hello my friends-------------");
 
+        Button btnAdd = view.findViewById(R.id.btnAdd);
 
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((NavigationHost) getActivity()).navigateTo(new ProductCreateFragment(), false);
+            }
+        });
         return view;
     }
+
 
 }

@@ -26,8 +26,8 @@ public class ProductDTOService {
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .addInterceptor(new ConnectivityInterceptor())
                 .addInterceptor(new JWTInterceptor())
-                .addInterceptor(new AuthorizationInterceptor())
-                .addInterceptor(interceptor);
+                .addInterceptor(interceptor)
+                .addInterceptor(new AuthorizationInterceptor());
 
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)

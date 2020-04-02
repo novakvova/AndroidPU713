@@ -23,8 +23,8 @@ public class AuthorizationInterceptor implements Interceptor {
             CovidApplication context = (CovidApplication) CovidApplication.getAppContext();
             NavigationHost navigationHost = (NavigationHost) context.getCurrentActivity();
             navigationHost.navigateTo(new LoginFragment(), false);
-            return response;
+          //  return response;
         }
-        return chain.proceed(newRequest);
+        return response;
     }
 }
