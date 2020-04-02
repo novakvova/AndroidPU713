@@ -1,4 +1,6 @@
-package com.example.testapp.retrofitProduct;
+package com.example.testapp.productview.api;
+
+import com.example.testapp.productview.dto.ProductDTO;
 
 import java.util.List;
 

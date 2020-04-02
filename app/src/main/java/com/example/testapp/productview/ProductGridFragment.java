@@ -1,8 +1,5 @@
 package com.example.testapp.productview;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,21 +7,18 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.testapp.ErrorFragment;
 import com.example.testapp.NavigationHost;
 import com.example.testapp.R;
 import com.example.testapp.network.ProductEntry;
-import com.example.testapp.retrofitProduct.ProductDTO;
-import com.example.testapp.retrofitProduct.ProductDTOService;
+import com.example.testapp.productview.dto.ProductDTO;
+import com.example.testapp.productview.api.ProductDTOService;
 import com.example.testapp.utils.CommonUtils;
-import com.example.testapp.utilsintrnet.NoConnectivityException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +66,8 @@ public class ProductGridFragment extends Fragment {
                     @Override
                     public void onResponse(@NonNull Call<List<ProductDTO>> call, @NonNull Response<List<ProductDTO>> response) {
                         CommonUtils.hideLoading();
-                        if(response.isSuccessful()) {
+
+                        if (response.isSuccessful()) {
                             List<ProductDTO> list = response.body();
                             List<ProductEntry> newlist = new ArrayList<ProductEntry>();//ProductEntry.initProductEntryList(getResources());
                             for (ProductDTO item : list) {
@@ -86,13 +81,10 @@ public class ProductGridFragment extends Fragment {
 
                     @Override
                     public void onFailure(@NonNull Call<List<ProductDTO>> call, @NonNull Throwable t) {
+                        Log.e("ERROR", "*************ERORR request***********");
+                        t.printStackTrace();
                         CommonUtils.hideLoading();
-                        if (t instanceof NoConnectivityException) {
-                            Log.d(TAG, "------------------------------ffffffffffffffffffffffffffffffffff-----------------");
-                            ((NavigationHost) getActivity()).navigateTo(new ErrorFragment(), false); // Navigate to the next Fragment
-                            // показываем информацию
-                            //h.post(showError);
-                        }
+
                     }
                 });
         Log.d(TAG, "----------Hello my friends-------------");
