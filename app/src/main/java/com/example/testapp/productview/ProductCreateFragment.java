@@ -1,16 +1,22 @@
 package com.example.testapp.productview;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.testapp.NavigationHost;
 import com.example.testapp.R;
@@ -22,6 +28,9 @@ import com.example.testapp.network.utils.CommonUtils;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -29,6 +38,10 @@ import retrofit2.Response;
 
 public class ProductCreateFragment extends Fragment {
     private int i=0;
+    public static final int PICKFILE_RESULT_CODE = 1;
+
+    private Uri fileUri;
+    private String filePath;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +58,21 @@ public class ProductCreateFragment extends Fragment {
         final TextInputEditText titleEditText = view.findViewById(R.id.product_title_editor);
         final TextInputEditText priceEditText = view.findViewById(R.id.product_price_editor);
         final TextView errormessage=view.findViewById(R.id.invalid);
+
+        Button btnSelectImage = view.findViewById(R.id.btnSelectImage);
+        btnSelectImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getContext(), "Hello select image", Toast.LENGTH_SHORT).show();
+                Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+                chooseFile.setType("*/*");
+                chooseFile = Intent.createChooser(chooseFile, "Choose a file");
+                startActivityForResult(chooseFile, PICKFILE_RESULT_CODE);
+            }
+        });
+
+
+
         Button btnAdd = view.findViewById(R.id.btnAddProduct);
 
 
@@ -102,5 +130,29 @@ public class ProductCreateFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case PICKFILE_RESULT_CODE:
+                if (resultCode == -1) {
+                    fileUri = data.getData();
+                    filePath = fileUri.getPath();
+                    //String uriString=fileUri.
+                    //File file = new File(filePath);
+                    File file = new File(fileUri.getPath());
+                    File imgFile = new File(filePath+".jpg");
+                    if (imgFile.exists() && imgFile.length() > 0) {
+                        Bitmap bm = BitmapFactory.decodeFile(filePath);
+                        ByteArrayOutputStream bOut = new ByteArrayOutputStream();
+                        bm.compress(Bitmap.CompressFormat.JPEG, 100, bOut);
+                        String base64Image = Base64.encodeToString(bOut.toByteArray(), Base64.DEFAULT);
+                    }
+                    Toast.makeText(getContext(), filePath, Toast.LENGTH_SHORT).show();
+                    //tvItemPath.setText(filePath);
+                }
+
+                break;
+        }
+    }
 
 }
