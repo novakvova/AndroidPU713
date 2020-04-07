@@ -12,15 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.example.testapp.ErrorFragment;
 import com.example.testapp.NavigationHost;
 import com.example.testapp.R;
 import com.example.testapp.network.ProductEntry;
 import com.example.testapp.productview.dto.ProductDTO;
 import com.example.testapp.productview.api.ProductDTOService;
-import com.example.testapp.utils.CommonUtils;
+import com.example.testapp.network.utils.CommonUtils;
 
 import java.util.ArrayList;
 import java.util.List;

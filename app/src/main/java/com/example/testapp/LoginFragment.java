@@ -1,14 +1,11 @@
 package com.example.testapp;
 
-import androidx.lifecycle.ViewModelProviders;
-
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.text.Editable;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -23,7 +20,7 @@ import com.example.testapp.account.LoginDTO;
 import com.example.testapp.account.LoginDTOBadRequest;
 import com.example.testapp.account.TokenDTO;
 import com.example.testapp.productview.ProductGridFragment;
-import com.example.testapp.utils.CommonUtils;
+import com.example.testapp.network.utils.CommonUtils;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;

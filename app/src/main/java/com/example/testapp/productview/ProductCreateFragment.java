@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.testapp.NavigationHost;
 import com.example.testapp.R;
@@ -19,7 +18,7 @@ import com.example.testapp.productview.api.ProductDTOService;
 import com.example.testapp.productview.dto.ProductCreateDTO;
 import com.example.testapp.productview.dto.ProductCreateInvalidDTO;
 import com.example.testapp.productview.dto.ProductCreateResultDTO;
-import com.example.testapp.utils.CommonUtils;
+import com.example.testapp.network.utils.CommonUtils;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 

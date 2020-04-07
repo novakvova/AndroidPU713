@@ -24,17 +24,16 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         if(savedInstanceState == null) {
             String token = this.getToken();
+
             if (token != null && !token.isEmpty()) {
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .add(R.id.container, new ProductGridFragment())
-                        .commit();
+                this.currentFragment=new ProductGridFragment();
             } else {
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .add(R.id.container, new LoginFragment())
-                        .commit();
+                this.currentFragment=new LoginFragment();
             }
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.container, this.currentFragment)
+                    .commit();
         }
     }
 

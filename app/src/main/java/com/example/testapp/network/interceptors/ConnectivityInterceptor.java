@@ -9,10 +9,10 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import com.example.testapp.ErrorFragment;
-import com.example.testapp.LoginFragment;
 import com.example.testapp.NavigationHost;
 import com.example.testapp.application.CovidApplication;
-import com.example.testapp.network.NetworkUtil;
+import com.example.testapp.network.utils.ConnectionInternetError;
+import com.example.testapp.network.utils.NetworkUtil;
 
 public class ConnectivityInterceptor implements Interceptor {
 
@@ -23,8 +23,8 @@ public class ConnectivityInterceptor implements Interceptor {
 
         if (!NetworkUtil.isOnline(context)) {
             CovidApplication covidApplication = (CovidApplication) context;
-            NavigationHost navigationHost = (NavigationHost) covidApplication.getCurrentActivity();
-            navigationHost.navigateTo(new ErrorFragment(), false);
+            ConnectionInternetError errorNavigation = (ConnectionInternetError) covidApplication.getCurrentActivity();
+            errorNavigation.navigateErrorPage();
         }
         Request newRequest = originalRequest.newBuilder()
                 .build();

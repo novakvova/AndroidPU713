@@ -1,4 +1,4 @@
-package com.example.testapp.utils;
+package com.example.testapp.network.utils;
 
 import android.app.ProgressDialog;
 import android.content.Context;
