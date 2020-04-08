@@ -16,15 +16,6 @@
         android:padding="24dp"
         android:paddingTop="16dp">
 
-        <ImageView
-            android:id="@+id/login_image_logo"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="48dp"
-            android:layout_marginBottom="16dp"
-            android:contentDescription="@string/logo_image_desc"
-            android:src="@drawable/news_icon" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -43,13 +34,8 @@
             android:layout_marginBottom="10dp"
             android:textColor="@color/colorRed"
             android:textSize="16sp" />
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSelectImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:text="Додати" />
+
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/userlogin_text_input"
@@ -79,6 +65,35 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
+            <ImageView
+                android:id="@+id/chooseImage"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_toStartOf="@id/btnSelectImage"
+                android:layout_toLeftOf="@id/btnSelectImage"
+                android:src="@drawable/upload_icon" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSelectImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="45dp"
+                android:text="Обрати фото" />
+        </RelativeLayout>
+
+
+
 
         <RelativeLayout
             android:layout_width="match_parent"
