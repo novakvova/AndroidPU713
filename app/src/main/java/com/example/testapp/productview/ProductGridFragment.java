@@ -1,10 +1,13 @@
 package com.example.testapp.productview;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.testapp.Constants;
 import com.example.testapp.NavigationHost;
 import com.example.testapp.ProductEditFragment;
 import com.example.testapp.R;
@@ -57,7 +61,7 @@ public class ProductGridFragment extends Fragment implements OnDeleteListener, O
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2,
                 GridLayoutManager.VERTICAL, false));
         listProductEntry = new ArrayList<>();
-        productAdapter = new ProductCardRecyclerViewAdapter(listProductEntry, this, this);
+        productAdapter = new ProductCardRecyclerViewAdapter(listProductEntry, this, this,getContext());
 
 //        List<ProductEntry> list = ProductEntry.initProductEntryList(getResources());
 //        ProductCardRecyclerViewAdapter adapter = new ProductCardRecyclerViewAdapter(list);
@@ -106,7 +110,7 @@ public class ProductGridFragment extends Fragment implements OnDeleteListener, O
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((NavigationHost) getActivity()).navigateTo(new ProductCreateFragment(), false);
+                ((NavigationHost) getActivity()).navigateTo(new ProductCreateFragment(), true);
             }
         });
         return view;
@@ -119,14 +123,31 @@ public class ProductGridFragment extends Fragment implements OnDeleteListener, O
         productAdapter.notifyDataSetChanged();
     }
 
+    @SuppressLint("ResourceType")
     @Override
     public void editItem(ProductEntry productEntry, int index) {
-     //   Intent intent = new Intent(this, EditActivity.class);
-        ((NavigationHost) getActivity()).navigateTo(new ProductEditFragment(), false);
-//
-//        intent.putExtra(Constants.PERSON_INTENT_EDIT, true);
-//        intent.putExtra(Constants.PERSON_INTENT_INDEX, index);
-//        intent.putExtra(Constants.PERSON_INTENT_OBJECT, person);
-//        startActivityForResult(intent, REQUEST_CODE_EDIT);
+//        Intent intent = new Intent(getActivity(),ProductEditFragment.class);
+
+////
+//        intent.putExtra(Constants.PRODUCT_INTENT_EDIT, true);
+//        intent.putExtra(Constants.PRODUCT_INTENT_INDEX, index);
+//        intent.putExtra(Constants.PRODUCT_INTENT_OBJECT, productEntry);
+//       startActivityForResult(intent, REQUEST_CODE_EDIT);
+
+        ProductEditFragment fragment = new ProductEditFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(Constants.PRODUCT_INTENT_EDIT, true);
+        bundle.putInt(Constants.PRODUCT_INTENT_INDEX, index);
+        bundle.putParcelable(Constants.PRODUCT_INTENT_OBJECT, productEntry);
+
+
+
+        fragment.setArguments(bundle);//passing data to fragment
+//        getChildFragmentManager().beginTransaction()
+//                .replace(R.layout.fragment_product_grid, fragment)
+//                .addToBackStack(null)
+//                .commit();
+        ((NavigationHost) getActivity()).navigateTo(fragment, true);
+
     }
 }

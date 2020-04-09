@@ -1,5 +1,8 @@
 package com.example.testapp.productview;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,12 +27,14 @@ public class ProductCardRecyclerViewAdapter extends RecyclerView.Adapter<Product
     private ImageRequester imageRequester;
     private OnDeleteListener deleteListener;
     private OnEditListener onEditListener;
+    private Context context;
+    boolean result=false;
 
-
-    ProductCardRecyclerViewAdapter(List<ProductEntry> productList, OnEditListener editListener, OnDeleteListener deleteListener) {
+    ProductCardRecyclerViewAdapter(List<ProductEntry> productList, OnEditListener editListener, OnDeleteListener deleteListener,Context context) {
         this.productList = productList;
         this.deleteListener = deleteListener;
         this.onEditListener = editListener;
+        this.context=context;
         imageRequester = ImageRequester.getInstance();
     }
 
@@ -47,10 +52,30 @@ public class ProductCardRecyclerViewAdapter extends RecyclerView.Adapter<Product
             ProductEntry product = productList.get(position);
             holder.productTitle.setText(product.title);
             holder.productPrice.setText(product.price);
-            holder.getView().setOnClickListener(new View.OnClickListener() {
+
+            holder.getView().setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public void onClick(View v) {
-                    deleteListener.deleteItem(productList.get(position));
+                public boolean onLongClick(View v) {
+                    new AlertDialog.Builder(context)
+                            .setTitle("Delete entry")
+                            .setMessage("Are you sure you want to delete this entry?")
+
+                            // Specifying a listener allows you to take an action before dismissing the dialog.
+                            // The dialog is automatically dismissed when a dialog button is clicked.
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Continue with delete operation
+                                    deleteListener.deleteItem(productList.get(position));
+                                    result=true;
+                                }
+                            })
+
+                            // A null listener allows the button to dismiss the dialog and take no further action.
+                            .setNegativeButton(android.R.string.no, null)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+
+                    return result;
                 }
             });
 

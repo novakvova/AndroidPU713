@@ -2,6 +2,8 @@ package com.example.testapp.network;
 
 import android.content.res.Resources;
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.example.testapp.R;
@@ -22,14 +24,14 @@ import java.util.List;
 /**
  * A product entry in the list of products.
  */
-public class ProductEntry {
+public class ProductEntry implements Parcelable {
     private static final String TAG = ProductEntry.class.getSimpleName();
 
-    public final String title;
-    public final Uri dynamicUrl;
-    public final String url;
-    public final String price;
-    public final String description;
+    public  String title;
+    public  Uri dynamicUrl;
+    public  String url;
+    public  String price;
+    public  String description;
 
     public ProductEntry(
             String title, String dynamicUrl, String url, String price, String description) {
@@ -40,6 +42,36 @@ public class ProductEntry {
         this.description = description;
     }
 
+    public ProductEntry() {
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Uri getDynamicUrl() {
+        return dynamicUrl;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getDescription() {
+        return description;
+    }
 
     /**
      * Loads a raw JSON at R.raw.products and converts it into a list of ProductEntry objects
@@ -70,4 +102,17 @@ public class ProductEntry {
         }.getType();
         return gson.fromJson(jsonProductsString, productListType);
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(price);
+    }
+
+
 }
