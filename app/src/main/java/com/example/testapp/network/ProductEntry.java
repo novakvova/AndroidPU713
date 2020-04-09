@@ -40,6 +40,7 @@ public class ProductEntry {
         this.description = description;
     }
 
+
     /**
      * Loads a raw JSON at R.raw.products and converts it into a list of ProductEntry objects
      */

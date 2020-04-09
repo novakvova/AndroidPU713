@@ -1,5 +1,6 @@
 package com.example.testapp.productview;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,7 +15,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.testapp.NavigationHost;
+import com.example.testapp.ProductEditFragment;
 import com.example.testapp.R;
+import com.example.testapp.click_listeners.OnDeleteListener;
+import com.example.testapp.click_listeners.OnEditListener;
 import com.example.testapp.network.ProductEntry;
 import com.example.testapp.productview.dto.ProductDTO;
 import com.example.testapp.productview.api.ProductDTOService;
@@ -27,11 +31,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProductGridFragment extends Fragment {
+public class ProductGridFragment extends Fragment implements OnDeleteListener, OnEditListener {
 
     private static final String TAG = ProductGridFragment.class.getSimpleName();
     private RecyclerView recyclerView;
-    //Handler h;
+
+    private ProductCardRecyclerViewAdapter productAdapter;
+    private List<ProductEntry> listProductEntry;
+
+    private final int REQUEST_CODE_EDIT = 101;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,11 +56,13 @@ public class ProductGridFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2,
                 GridLayoutManager.VERTICAL, false));
+        listProductEntry = new ArrayList<>();
+        productAdapter = new ProductCardRecyclerViewAdapter(listProductEntry, this, this);
 
 //        List<ProductEntry> list = ProductEntry.initProductEntryList(getResources());
 //        ProductCardRecyclerViewAdapter adapter = new ProductCardRecyclerViewAdapter(list);
 //
-//        recyclerView.set  Adapter(adapter);
+        recyclerView.setAdapter(productAdapter);
 
         int largePadding = getResources().getDimensionPixelSize(R.dimen.shr_product_grid_spacing);
         int smallPadding = getResources().getDimensionPixelSize(R.dimen.shr_product_grid_spacing_small);
@@ -69,13 +79,15 @@ public class ProductGridFragment extends Fragment {
 
                         if (response.isSuccessful()) {
                             List<ProductDTO> list = response.body();
-                            List<ProductEntry> newlist = new ArrayList<ProductEntry>();//ProductEntry.initProductEntryList(getResources());
+                        //    List<ProductEntry> newlist = new ArrayList<ProductEntry>();//ProductEntry.initProductEntryList(getResources());
                             for (ProductDTO item : list) {
                                 ProductEntry pe = new ProductEntry(item.getTitle(), item.getUrl(), item.getUrl(), item.getPrice(), "sdfasd");
-                                newlist.add(pe);
+                                listProductEntry.add(pe);
                             }
-                            ProductCardRecyclerViewAdapter newAdapter = new ProductCardRecyclerViewAdapter(newlist);
-                            recyclerView.swapAdapter(newAdapter, false);
+                         //   ProductCardRecyclerViewAdapter newAdapter = new ProductCardRecyclerViewAdapter(listProductEntry,this,this);
+                   //         recyclerView.swapAdapter(newAdapter, false);
+                            productAdapter.notifyDataSetChanged();
+
                         }
                     }
 
@@ -101,4 +113,20 @@ public class ProductGridFragment extends Fragment {
     }
 
 
+    @Override
+    public void deleteItem(ProductEntry productEntry) {
+        listProductEntry.remove(productEntry);
+        productAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void editItem(ProductEntry productEntry, int index) {
+     //   Intent intent = new Intent(this, EditActivity.class);
+        ((NavigationHost) getActivity()).navigateTo(new ProductEditFragment(), false);
+//
+//        intent.putExtra(Constants.PERSON_INTENT_EDIT, true);
+//        intent.putExtra(Constants.PERSON_INTENT_INDEX, index);
+//        intent.putExtra(Constants.PERSON_INTENT_OBJECT, person);
+//        startActivityForResult(intent, REQUEST_CODE_EDIT);
+    }
 }

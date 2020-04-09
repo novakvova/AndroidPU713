@@ -12,4 +12,9 @@
     <string name="product_description">Опис</string>
     <string name="empty_screen">іфва іфва фіа фіаф іав</string>
     <string name="logo_image_desc">Логотип</string>
+    <string name="button_add">Add</string>
+    <string name="button_edit">Edit</string>
+
+    <string name="hint_first_name">First Name</string>
+    <string name="hint_last_name">Last Name</string>
 </resources>
