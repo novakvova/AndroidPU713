@@ -29,10 +29,12 @@ import com.example.testapp.network.ProductEntry;
 import com.example.testapp.productview.dto.ProductDTO;
 import com.example.testapp.productview.api.ProductDTOService;
 import com.example.testapp.network.utils.CommonUtils;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -87,7 +89,7 @@ public class ProductGridFragment extends Fragment implements OnDeleteListener, O
                             List<ProductDTO> list = response.body();
                             //    List<ProductEntry> newlist = new ArrayList<ProductEntry>();//ProductEntry.initProductEntryList(getResources());
                             for (ProductDTO item : list) {
-                                ProductEntry pe = new ProductEntry(item.getTitle(), item.getUrl(), item.getUrl(), item.getPrice(), "sdfasd");
+                                ProductEntry pe = new ProductEntry(item.getId(),item.getTitle(), item.getUrl(), item.getUrl(), item.getPrice(), "sdfasd");
                                 listProductEntry.add(pe);
                             }
                             //   ProductCardRecyclerViewAdapter newAdapter = new ProductCardRecyclerViewAdapter(listProductEntry,this,this);
@@ -118,28 +120,75 @@ public class ProductGridFragment extends Fragment implements OnDeleteListener, O
         return view;
     }
 
+    private void deleteConfirm(final ProductEntry productEntry) {
+        CommonUtils.showLoading(getContext());
+        ProductDTOService.getInstance()
+                .getJSONApi()
+                .DeleteRequest(productEntry.id)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                        CommonUtils.hideLoading();
 
+                        if (response.isSuccessful()) {
+                            listProductEntry.remove(productEntry);
+                            productAdapter.notifyDataSetChanged();
+                        } else {
+                            //  Log.e(TAG, "_______________________" + response.errorBody().charStream());
+
+                            try {
+//                                                String json = response.errorBody().string();
+//                                                Gson gson  = new Gson();
+//                                                ProductCreateInvalidDTO resultBad = gson.fromJson(json, ProductCreateInvalidDTO.class);
+                                //Log.d(TAG,"++++++++++++++++++++++++++++++++"+response.errorBody().string());
+                                //errormessage.setText(resultBad.getInvalid());
+                            } catch (Exception e) {
+                                //Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                        CommonUtils.hideLoading();
+                        Log.e("ERROR", "*************ERORR request***********");
+                        t.printStackTrace();
+
+                    }
+                });
+    }
     @Override
     public void deleteItem(final ProductEntry productEntry) {
-
-        new AlertDialog.Builder(getActivity())
-                .setTitle("Delete entry")
-                .setMessage("Are you sure you want to delete this entry?")
-
-                // Specifying a listener allows you to take an action before dismissing the dialog.
-                // The dialog is automatically dismissed when a dialog button is clicked.
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+        new MaterialAlertDialogBuilder(getContext())
+                .setTitle("Видалення")
+                .setMessage("Ви дійсно бажаєте видалити \"" + productEntry.title + "\"?")
+                .setNegativeButton("Скасувати", null)
+                .setPositiveButton("Видалити", new DialogInterface.OnClickListener() {
+                    @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // Continue with delete operation
-                        listProductEntry.remove(productEntry);
-                        productAdapter.notifyDataSetChanged();
+                        deleteConfirm(productEntry);
                     }
                 })
-
-                // A null listener allows the button to dismiss the dialog and take no further action.
-                .setNegativeButton(android.R.string.no, null)
-                .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
+//        new AlertDialog.Builder(getActivity())
+//                .setTitle("Delete entry")
+//                .setMessage("Are you sure you want to delete this entry?")
+//
+//                // Specifying a listener allows you to take an action before dismissing the dialog.
+//                // The dialog is automatically dismissed when a dialog button is clicked.
+//                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        // Continue with delete operation
+//                        listProductEntry.remove(productEntry);
+//                        productAdapter.notifyDataSetChanged();
+//                    }
+//                })
+//
+//                // A null listener allows the button to dismiss the dialog and take no further action.
+//                .setNegativeButton(android.R.string.no, null)
+//                .setIcon(android.R.drawable.ic_dialog_alert)
+//                .show();
+
     }
 
     @SuppressLint("ResourceType")
@@ -157,7 +206,7 @@ public class ProductGridFragment extends Fragment implements OnDeleteListener, O
         Bundle bundle = new Bundle();
         bundle.putBoolean(Constants.PRODUCT_INTENT_EDIT, true);
         bundle.putInt(Constants.PRODUCT_INTENT_INDEX, index);
-        bundle.putParcelable(Constants.PRODUCT_INTENT_OBJECT, productEntry);
+//        bundle.putParcelable(Constants.PRODUCT_INTENT_OBJECT, productEntry);
 
 
         fragment.setArguments(bundle);//passing data to fragment

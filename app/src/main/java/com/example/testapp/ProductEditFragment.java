@@ -118,7 +118,7 @@ public class ProductEditFragment extends Fragment {
 
                 Intent intent = new Intent();
                 Bundle bundle = new Bundle();
-                bundle.putParcelable(Constants.PRODUCT_INTENT_OBJECT, productEntry);
+//                bundle.putParcelable(Constants.PRODUCT_INTENT_OBJECT, productEntry);
                 bundle.putBoolean(Constants.PRODUCT_INTENT_EDIT, isEdit);
                 bundle.putInt(Constants.PRODUCT_INTENT_INDEX, index);
                 intent.putExtras(bundle);

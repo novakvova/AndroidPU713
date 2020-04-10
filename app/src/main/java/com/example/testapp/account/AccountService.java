@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AccountService {
     private static AccountService mInstance;
-    private static final String BASE_URL = "https://covidandroid.azurewebsites.net/api/account/";//"http://10.0.2.2/api/account/";
+    private static final String BASE_URL = "https://covidbackfrilance.azurewebsites.net/api/account/";//"http://10.0.2.2/api/account/";
     private Retrofit mRetrofit;
 
     private AccountService() {

@@ -2,12 +2,17 @@ package com.example.testapp.productview.dto;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ProductDTO implements Parcelable {
+import java.io.Console;
 
+public class ProductDTO {
+    @SerializedName("id")
+    @Expose
+    private int id;
     @SerializedName("title")
     @Expose
     private String title;
@@ -17,6 +22,15 @@ public class ProductDTO implements Parcelable {
     @SerializedName("price")
     @Expose
     private String price;
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -44,22 +58,16 @@ public class ProductDTO implements Parcelable {
 
     @Override
     public String toString() {
+        Log.e("Log", "Product DTO.");
         return "ProductDTO{" +
-                "title='" + title + '\'' +
+                "id=" + id +
+                ", title='" + title + '\'' +
                 ", url='" + url + '\'' +
                 ", price='" + price + '\'' +
                 '}';
-    }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(title);
-        dest.writeString(price);
     }
 }
+
+
 
