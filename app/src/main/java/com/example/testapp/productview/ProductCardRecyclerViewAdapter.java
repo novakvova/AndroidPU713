@@ -1,8 +1,6 @@
 package com.example.testapp.productview;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.testapp.R;
-import com.example.testapp.click_listeners.OnDeleteListener;
-import com.example.testapp.click_listeners.OnEditListener;
+import com.example.testapp.productview.click_listeners.OnDeleteListener;
+import com.example.testapp.productview.click_listeners.OnEditListener;
 import com.example.testapp.network.ImageRequester;
 import com.example.testapp.network.ProductEntry;
 
@@ -64,7 +62,7 @@ public class ProductCardRecyclerViewAdapter extends RecyclerView.Adapter<Product
             holder.getView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onEditListener.editItem(productList.get(position),position);
+                    onEditListener.editItem(productList.get(position).id);
                 }
             });
             imageRequester.setImageFromUrl(holder.productImage, product.url);

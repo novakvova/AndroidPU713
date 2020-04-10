@@ -1,15 +1,12 @@
 package com.example.testapp.productview;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,13 +15,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
-import com.example.testapp.Constants;
 import com.example.testapp.NavigationHost;
-import com.example.testapp.ProductEditFragment;
 import com.example.testapp.R;
-import com.example.testapp.click_listeners.OnDeleteListener;
-import com.example.testapp.click_listeners.OnEditListener;
+import com.example.testapp.productview.click_listeners.OnDeleteListener;
+import com.example.testapp.productview.click_listeners.OnEditListener;
 import com.example.testapp.network.ProductEntry;
 import com.example.testapp.productview.dto.ProductDTO;
 import com.example.testapp.productview.api.ProductDTOService;
@@ -193,28 +189,29 @@ public class ProductGridFragment extends Fragment implements OnDeleteListener, O
 
     @SuppressLint("ResourceType")
     @Override
-    public void editItem(ProductEntry productEntry, int index) {
-//        Intent intent = new Intent(getActivity(),ProductEditFragment.class);
+    public void editItem(int id) {
+        Intent intent = new Intent(getActivity(),ProductEditActivity.class);
 
 ////
-//        intent.putExtra(Constants.PRODUCT_INTENT_EDIT, true);
-//        intent.putExtra(Constants.PRODUCT_INTENT_INDEX, index);
-//        intent.putExtra(Constants.PRODUCT_INTENT_OBJECT, productEntry);
-//       startActivityForResult(intent, REQUEST_CODE_EDIT);
+    //    intent.putExtra(Constants.PRODUCT_INTENT_EDIT, true);
+        intent.putExtra(Constants.PRODUCT_INTENT_ID, id);
+      //  intent.putExtra(Constants.PRODUCT_INTENT_OBJECT, productEntry);
+     //   Toast.makeText(getActivity(),String.valueOf(id),Toast.LENGTH_LONG).show();
+      startActivityForResult(intent, REQUEST_CODE_EDIT);
 
-        ProductEditFragment fragment = new ProductEditFragment();
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(Constants.PRODUCT_INTENT_EDIT, true);
-        bundle.putInt(Constants.PRODUCT_INTENT_INDEX, index);
+//        ProductEditFragment fragment = new ProductEditFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putBoolean(Constants.PRODUCT_INTENT_EDIT, true);
+//        bundle.putInt(Constants.PRODUCT_INTENT_INDEX, index);
 //        bundle.putParcelable(Constants.PRODUCT_INTENT_OBJECT, productEntry);
 
 
-        fragment.setArguments(bundle);//passing data to fragment
+     //   fragment.setArguments(bundle);//passing data to fragment
 //        getChildFragmentManager().beginTransaction()
 //                .replace(R.layout.fragment_product_grid, fragment)
 //                .addToBackStack(null)
 //                .commit();
-        ((NavigationHost) getActivity()).navigateTo(fragment, true);
+      //  ((NavigationHost) getActivity()).navigateTo(fragment, true);
 
     }
 }

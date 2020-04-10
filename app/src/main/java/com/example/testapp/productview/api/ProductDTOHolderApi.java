@@ -21,4 +21,5 @@ public interface ProductDTOHolderApi {
     public Call<ProductCreateResultDTO> createProduct(@Body ProductCreateDTO product);
     @DELETE("products/delete/{id}")
     public Call<ResponseBody> DeleteRequest(@Path("id") int id);
+
 }
