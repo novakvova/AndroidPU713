@@ -28,7 +28,7 @@ public class ProductCardRecyclerViewAdapter extends RecyclerView.Adapter<Product
     private OnDeleteListener deleteListener;
     private OnEditListener onEditListener;
     private Context context;
-    boolean result=false;
+
 
     ProductCardRecyclerViewAdapter(List<ProductEntry> productList, OnEditListener editListener, OnDeleteListener deleteListener,Context context) {
         this.productList = productList;
@@ -56,26 +56,8 @@ public class ProductCardRecyclerViewAdapter extends RecyclerView.Adapter<Product
             holder.getView().setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    new AlertDialog.Builder(context)
-                            .setTitle("Delete entry")
-                            .setMessage("Are you sure you want to delete this entry?")
-
-                            // Specifying a listener allows you to take an action before dismissing the dialog.
-                            // The dialog is automatically dismissed when a dialog button is clicked.
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // Continue with delete operation
-                                    deleteListener.deleteItem(productList.get(position));
-                                    result=true;
-                                }
-                            })
-
-                            // A null listener allows the button to dismiss the dialog and take no further action.
-                            .setNegativeButton(android.R.string.no, null)
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .show();
-
-                    return result;
+                    deleteListener.deleteItem(productList.get(position));
+                    return true;
                 }
             });
 

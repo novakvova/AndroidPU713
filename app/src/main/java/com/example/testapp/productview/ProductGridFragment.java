@@ -1,6 +1,8 @@
 package com.example.testapp.productview;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -61,7 +63,7 @@ public class ProductGridFragment extends Fragment implements OnDeleteListener, O
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2,
                 GridLayoutManager.VERTICAL, false));
         listProductEntry = new ArrayList<>();
-        productAdapter = new ProductCardRecyclerViewAdapter(listProductEntry, this, this,getContext());
+        productAdapter = new ProductCardRecyclerViewAdapter(listProductEntry, this, this, getContext());
 
 //        List<ProductEntry> list = ProductEntry.initProductEntryList(getResources());
 //        ProductCardRecyclerViewAdapter adapter = new ProductCardRecyclerViewAdapter(list);
@@ -83,13 +85,13 @@ public class ProductGridFragment extends Fragment implements OnDeleteListener, O
 
                         if (response.isSuccessful()) {
                             List<ProductDTO> list = response.body();
-                        //    List<ProductEntry> newlist = new ArrayList<ProductEntry>();//ProductEntry.initProductEntryList(getResources());
+                            //    List<ProductEntry> newlist = new ArrayList<ProductEntry>();//ProductEntry.initProductEntryList(getResources());
                             for (ProductDTO item : list) {
                                 ProductEntry pe = new ProductEntry(item.getTitle(), item.getUrl(), item.getUrl(), item.getPrice(), "sdfasd");
                                 listProductEntry.add(pe);
                             }
-                         //   ProductCardRecyclerViewAdapter newAdapter = new ProductCardRecyclerViewAdapter(listProductEntry,this,this);
-                   //         recyclerView.swapAdapter(newAdapter, false);
+                            //   ProductCardRecyclerViewAdapter newAdapter = new ProductCardRecyclerViewAdapter(listProductEntry,this,this);
+                            //         recyclerView.swapAdapter(newAdapter, false);
                             productAdapter.notifyDataSetChanged();
 
                         }
@@ -118,9 +120,26 @@ public class ProductGridFragment extends Fragment implements OnDeleteListener, O
 
 
     @Override
-    public void deleteItem(ProductEntry productEntry) {
-        listProductEntry.remove(productEntry);
-        productAdapter.notifyDataSetChanged();
+    public void deleteItem(final ProductEntry productEntry) {
+
+        new AlertDialog.Builder(getActivity())
+                .setTitle("Delete entry")
+                .setMessage("Are you sure you want to delete this entry?")
+
+                // Specifying a listener allows you to take an action before dismissing the dialog.
+                // The dialog is automatically dismissed when a dialog button is clicked.
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Continue with delete operation
+                        listProductEntry.remove(productEntry);
+                        productAdapter.notifyDataSetChanged();
+                    }
+                })
+
+                // A null listener allows the button to dismiss the dialog and take no further action.
+                .setNegativeButton(android.R.string.no, null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
     @SuppressLint("ResourceType")
@@ -139,7 +158,6 @@ public class ProductGridFragment extends Fragment implements OnDeleteListener, O
         bundle.putBoolean(Constants.PRODUCT_INTENT_EDIT, true);
         bundle.putInt(Constants.PRODUCT_INTENT_INDEX, index);
         bundle.putParcelable(Constants.PRODUCT_INTENT_OBJECT, productEntry);
-
 
 
         fragment.setArguments(bundle);//passing data to fragment
