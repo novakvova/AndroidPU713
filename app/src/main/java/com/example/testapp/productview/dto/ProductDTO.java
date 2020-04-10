@@ -22,7 +22,17 @@ public class ProductDTO {
     @SerializedName("price")
     @Expose
     private String price;
+    @SerializedName("imageBase64")
+    @Expose
+    private String imageBase64;
 
+    public String getImageBase64() {
+        return imageBase64;
+    }
+
+    public void setImageBase64(String imageBase64) {
+        this.imageBase64 = imageBase64;
+    }
 
     public int getId() {
         return id;

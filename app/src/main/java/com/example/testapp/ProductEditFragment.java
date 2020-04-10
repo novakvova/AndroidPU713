@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.testapp.network.ImageRequester;
 import com.example.testapp.network.ProductEntry;
 import com.example.testapp.productview.Constants;
 import com.example.testapp.productview.ProductGridFragment;
@@ -85,12 +86,12 @@ public class ProductEditFragment extends Fragment {
 //                getActivity().getFragmentManager().popBackStack();
 //            }
 //            editTextTitle.setText(productEntry.getTitle());
-//            editTextPrice.setText(productEntry.getPrice());
-//            buttonEdit.setText(getString(R.string.button_edit));
-//        } else {
-//            productEntry = new ProductEntry();
-//            buttonEdit.setText(getString(R.string.button_add));
-//        }
+////            editTextPrice.setText(productEntry.getPrice());
+////            buttonEdit.setText(getString(R.string.button_edit));
+////        } else {
+////            productEntry = new ProductEntry();
+////            buttonEdit.setText(getString(R.string.button_add));
+////        }
 
     }
 
