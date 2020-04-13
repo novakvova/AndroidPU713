@@ -115,9 +115,7 @@ public class ProductEditActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 setResult(RESULT_CANCELED);
-                ((NavigationHost) currentFragment.getActivity()).navigateTo(new ProductCreateFragment(), true);
-
-                // refreshLastPage();
+                finish();
             }
         });
     }
@@ -143,14 +141,9 @@ public class ProductEditActivity extends BaseActivity {
 
                                 CommonUtils.hideLoading();
                                 if (response.isSuccessful()) {
-
-                                    ((NavigationHost) currentFragment.getActivity()).navigateTo(new ProductGridFragment(), false); // Navigate to the products Fragment
-                                    //  Log.e(TAG, "*************GOOD Request***********" + tokenDTO.getToken());
+                                    setResult(RESULT_OK);
+                                    finish();
                                 }
-
-
-                                //Log.d(TAG,tokenDTO.toString());
-                                //CommonUtils.hideLoading();
                             }
 
                             @Override

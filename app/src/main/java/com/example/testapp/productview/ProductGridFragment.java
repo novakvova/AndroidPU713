@@ -43,7 +43,10 @@ public class ProductGridFragment extends Fragment implements OnDeleteListener, O
     private ProductCardRecyclerViewAdapter productAdapter;
     private List<ProductEntry> listProductEntry;
 
+    private Button btnAdd;
+
     private final int REQUEST_CODE_EDIT = 101;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,23 +58,47 @@ public class ProductGridFragment extends Fragment implements OnDeleteListener, O
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_product_grid, container, false);
-        // Set up the RecyclerView
+
+        setupViews(view);
+
+        setButtonAddListener();
+
+        setRecyclerView();
+
+        loadProductEntryList();
+
+        return view;
+    }
+
+    private void setupViews(View view) {
+        btnAdd = view.findViewById(R.id.btnAdd);
         recyclerView = view.findViewById(R.id.recycler_view);
+    }
+
+    private void setButtonAddListener() {
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((NavigationHost) getActivity()).navigateTo(new ProductCreateFragment(), true);
+            }
+        });
+    }
+
+    private void setRecyclerView() {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2,
                 GridLayoutManager.VERTICAL, false));
         listProductEntry = new ArrayList<>();
         productAdapter = new ProductCardRecyclerViewAdapter(listProductEntry, this, this, getContext());
 
-//        List<ProductEntry> list = ProductEntry.initProductEntryList(getResources());
-//        ProductCardRecyclerViewAdapter adapter = new ProductCardRecyclerViewAdapter(list);
-//
         recyclerView.setAdapter(productAdapter);
 
         int largePadding = getResources().getDimensionPixelSize(R.dimen.shr_product_grid_spacing);
         int smallPadding = getResources().getDimensionPixelSize(R.dimen.shr_product_grid_spacing_small);
         recyclerView.addItemDecoration(new ProductGridItemDecoration(largePadding, smallPadding));
-        //h = new Handler();
+    }
+
+    private void loadProductEntryList() {
         CommonUtils.showLoading(getActivity());
         ProductDTOService.getInstance()
                 .getJSONApi()
@@ -83,9 +110,11 @@ public class ProductGridFragment extends Fragment implements OnDeleteListener, O
 
                         if (response.isSuccessful()) {
                             List<ProductDTO> list = response.body();
+
+                            listProductEntry.clear();
                             //    List<ProductEntry> newlist = new ArrayList<ProductEntry>();//ProductEntry.initProductEntryList(getResources());
                             for (ProductDTO item : list) {
-                                ProductEntry pe = new ProductEntry(item.getId(),item.getTitle(), item.getUrl(), item.getUrl(), item.getPrice(), "sdfasd");
+                                ProductEntry pe = new ProductEntry(item.getId(), item.getTitle(), item.getUrl(), item.getUrl(), item.getPrice(), "sdfasd");
                                 listProductEntry.add(pe);
                             }
                             //   ProductCardRecyclerViewAdapter newAdapter = new ProductCardRecyclerViewAdapter(listProductEntry,this,this);
@@ -103,17 +132,6 @@ public class ProductGridFragment extends Fragment implements OnDeleteListener, O
 
                     }
                 });
-        Log.d(TAG, "----------Hello my friends-------------");
-
-        Button btnAdd = view.findViewById(R.id.btnAdd);
-
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((NavigationHost) getActivity()).navigateTo(new ProductCreateFragment(), true);
-            }
-        });
-        return view;
     }
 
     private void deleteConfirm(final ProductEntry productEntry) {
@@ -153,6 +171,7 @@ public class ProductGridFragment extends Fragment implements OnDeleteListener, O
                     }
                 });
     }
+
     @Override
     public void deleteItem(final ProductEntry productEntry) {
         new MaterialAlertDialogBuilder(getContext())
@@ -190,28 +209,18 @@ public class ProductGridFragment extends Fragment implements OnDeleteListener, O
     @SuppressLint("ResourceType")
     @Override
     public void editItem(int id) {
-        Intent intent = new Intent(getActivity(),ProductEditActivity.class);
-
-////
-    //    intent.putExtra(Constants.PRODUCT_INTENT_EDIT, true);
+        Intent intent = new Intent(getActivity(), ProductEditActivity.class);
         intent.putExtra(Constants.PRODUCT_INTENT_ID, id);
-      //  intent.putExtra(Constants.PRODUCT_INTENT_OBJECT, productEntry);
-     //   Toast.makeText(getActivity(),String.valueOf(id),Toast.LENGTH_LONG).show();
-      startActivityForResult(intent, REQUEST_CODE_EDIT);
-
-//        ProductEditFragment fragment = new ProductEditFragment();
-//        Bundle bundle = new Bundle();
-//        bundle.putBoolean(Constants.PRODUCT_INTENT_EDIT, true);
-//        bundle.putInt(Constants.PRODUCT_INTENT_INDEX, index);
-//        bundle.putParcelable(Constants.PRODUCT_INTENT_OBJECT, productEntry);
-
-
-     //   fragment.setArguments(bundle);//passing data to fragment
-//        getChildFragmentManager().beginTransaction()
-//                .replace(R.layout.fragment_product_grid, fragment)
-//                .addToBackStack(null)
-//                .commit();
-      //  ((NavigationHost) getActivity()).navigateTo(fragment, true);
-
+        startActivityForResult(intent, REQUEST_CODE_EDIT);
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE_EDIT) {
+            if (resultCode == -1) {
+                loadProductEntryList();
+            }
+        }
+    }
+
 }

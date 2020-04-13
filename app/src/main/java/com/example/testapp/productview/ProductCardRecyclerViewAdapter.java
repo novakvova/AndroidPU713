@@ -14,6 +14,7 @@ import com.example.testapp.productview.click_listeners.OnEditListener;
 import com.example.testapp.network.ImageRequester;
 import com.example.testapp.network.ProductEntry;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -65,7 +66,10 @@ public class ProductCardRecyclerViewAdapter extends RecyclerView.Adapter<Product
                     onEditListener.editItem(productList.get(position).id);
                 }
             });
-            imageRequester.setImageFromUrl(holder.productImage, product.url);
+
+            int i = (int) (new Date().getTime()/1000);
+
+            imageRequester.setImageFromUrl(holder.productImage, product.url+"?data="+i);
         }
     }
 
