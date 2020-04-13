@@ -63,7 +63,6 @@ public class ProductEditActivity extends BaseActivity {
         setbtnSelectImageListener();
     }
 
-
     private void setupViews() {
         editTextTitle = findViewById(R.id.editTextTitle);
         editTextPrice = findViewById(R.id.editTextPrice);
@@ -106,9 +105,7 @@ public class ProductEditActivity extends BaseActivity {
 
                     }
                 });
-
     }
-
 
     private void setButtonCancelListener() {
         buttonCancel.setOnClickListener(new View.OnClickListener() {

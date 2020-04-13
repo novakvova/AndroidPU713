@@ -30,6 +30,7 @@ import com.example.testapp.productview.dto.ProductCreateInvalidDTO;
 import com.example.testapp.productview.dto.ProductCreateResultDTO;
 import com.example.testapp.network.utils.CommonUtils;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
@@ -46,6 +47,15 @@ public class ProductCreateFragment extends Fragment {
     public static final int PICKFILE_RESULT_CODE = 1;
     private ImageView chooseImage;
     private String chooseImageBase64;
+    private Button btnSelectImage;
+    private Button btnAdd;
+
+    private TextInputLayout titleTextInput;
+    private TextInputEditText titleEditText;
+    private TextInputLayout priceTextInput;
+    private TextInputEditText priceEditText;
+
+    private TextView errormessage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,13 +69,38 @@ public class ProductCreateFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_product_create, container, false);
-        final TextInputEditText titleEditText = view.findViewById(R.id.product_title_editor);
-        final TextInputEditText priceEditText = view.findViewById(R.id.product_price_editor);
-        final TextView errormessage = view.findViewById(R.id.invalid);
 
+        //Ініціалізація зміних
+        setupViews(view);
+
+        //Обрати фото
+        setBtnSelectImageListener();
+
+        //Додати продукт
+        setBtnAddListener();
+
+        return view;
+    }
+
+    private void setupViews(View view) {
+
+        titleTextInput = view.findViewById(R.id.product_title_input_text);
+        titleEditText = view.findViewById(R.id.product_title_editor);
+
+        priceTextInput = view.findViewById(R.id.price_text_input);
+        priceEditText = view.findViewById(R.id.product_price_editor);
+
+        errormessage = view.findViewById(R.id.invalid);
+
+        btnSelectImage = view.findViewById(R.id.btnSelectImage);
         chooseImage = view.findViewById(R.id.chooseImage);
+        btnAdd = view.findViewById(R.id.btnAddProduct);
 
-        Button btnSelectImage = view.findViewById(R.id.btnSelectImage);
+
+
+    }
+
+    private void setBtnSelectImageListener() {
         btnSelectImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,9 +111,9 @@ public class ProductCreateFragment extends Fragment {
                 startActivityForResult(chooseFile, PICKFILE_RESULT_CODE);
             }
         });
+    }
 
-        Button btnAdd = view.findViewById(R.id.btnAddProduct);
-
+    private void setBtnAddListener() {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,6 +129,8 @@ public class ProductCreateFragment extends Fragment {
                             @Override
                             public void onResponse(@NonNull Call<ProductCreateResultDTO> call, @NonNull Response<ProductCreateResultDTO> response) {
                                 errormessage.setText("");
+                                titleTextInput.setError(null);
+                                priceTextInput.setError(null);
                                 CommonUtils.hideLoading();
                                 if (response.isSuccessful()) {
                                     ProductCreateResultDTO resultDTO = response.body();
@@ -106,8 +143,22 @@ public class ProductCreateFragment extends Fragment {
                                         String json = response.errorBody().string();
                                         Gson gson = new Gson();
                                         ProductCreateInvalidDTO resultBad = gson.fromJson(json, ProductCreateInvalidDTO.class);
-                                        //Log.d(TAG,"++++++++++++++++++++++++++++++++"+response.errorBody().string());
-                                        errormessage.setText(resultBad.getInvalid());
+                                        if(resultBad.getTitle() != null && !resultBad.getTitle().isEmpty()) {
+                                            titleTextInput.setError(resultBad.getTitle());
+                                        }
+
+                                        if(resultBad.getPrice() != null && !resultBad.getPrice().isEmpty()) {
+                                            priceTextInput.setError(resultBad.getPrice());
+                                        }
+
+                                        if(resultBad.getImageBase64() != null && !resultBad.getImageBase64().isEmpty()) {
+                                            errormessage.setText(resultBad.getImageBase64());
+                                        }
+
+                                        if(resultBad.getInvalid() != null && !resultBad.getInvalid().isEmpty()) {
+                                            errormessage.setText(resultBad.getInvalid());
+                                        }
+
                                     } catch (Exception e) {
                                         //Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                                     }
@@ -128,9 +179,6 @@ public class ProductCreateFragment extends Fragment {
                         });
             }
         });
-
-
-        return view;
     }
 
     @Override
@@ -150,18 +198,8 @@ public class ProductCreateFragment extends Fragment {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    //filePath = fileUri.getPath();
-                    //String uriString=fileUri.
-                    //File file = new File(filePath);
-
-
-                    //Toast.makeText(getContext(), filePath, Toast.LENGTH_SHORT).show();
-                    //tvItemPath.setText(filePath);
                 }
-
                 break;
         }
     }
-
-
 }
