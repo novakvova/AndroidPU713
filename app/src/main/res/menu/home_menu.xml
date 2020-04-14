@@ -1,24 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/home"
+    <item
+        android:id="@+id/home"
         android:icon="@drawable/ic_beach_access_black_24dp"
         android:title="Головна"
-        app:showAsAction="ifRoom"/>
-
-    <item android:id="@+id/register"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/Profile"
+        android:title="Профіль"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/register"
         android:title="Реєстрація"
         app:showAsAction="never" />
 
-    <item android:id="@+id/login"
+    <item
+        android:id="@+id/login"
         android:title="Логін"
         app:showAsAction="never" />
 
-    <item android:id="@+id/users"
+    <item
+        android:id="@+id/users"
         android:title="Користувачі"
         app:showAsAction="never" />
 
-    <item android:id="@+id/logout"
+    <item
+        android:id="@+id/logout"
         android:title="Вихід"
         app:showAsAction="never" />
 </menu>

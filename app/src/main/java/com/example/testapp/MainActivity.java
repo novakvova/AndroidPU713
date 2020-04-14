@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.testapp.productview.ProductGridFragment;
+import com.example.testapp.user.HomeActivity;
 import com.example.testapp.userview.UserGridFragment;
 
 import android.view.Menu;
@@ -64,6 +65,12 @@ public class MainActivity extends BaseActivity {
                 this.navigateTo(new LoginFragment(), true);
                 return true;
             }
+            case R.id.Profile: {
+                intent = new Intent(this, HomeActivity.class);
+                startActivity(intent);
+                return true;
+            }
+
             case R.id.users:
                 this.navigateTo(new UserGridFragment(), true); // Navigate to the next Fragment
                 return true;
