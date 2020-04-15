@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".user.UserProfileEditActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
+
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/chooseImage"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_toStartOf="@id/btnSelectImage"
+            android:layout_toLeftOf="@id/btnSelectImage"
+            android:src="@drawable/upload_icon" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSelectImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="45dp"
+            android:text="Обрати фото" />
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/editTextEmail"
+        style="@style/editText"
+        android:hint="Email" />
+
+    <EditText
+        android:id="@+id/editTextFirstName"
+        style="@style/editText"
+        android:hint="Firstname"
+        android:imeOptions="actionDone" />
+
+    <EditText
+        android:id="@+id/editTextLastName"
+        style="@style/editText"
+        android:hint="Lastname" />
+
+    <EditText
+        android:id="@+id/editPhone"
+        style="@style/editText"
+        android:hint="Phone" />
+
+    <EditText
+        android:id="@+id/editAddress"
+        style="@style/editText"
+        android:hint="Address" />
+
+    <EditText
+        android:id="@+id/editBirthDate"
+        style="@style/editText"
+        android:hint="Birthdate" />
+
+    <Button
+        android:id="@+id/buttonEdit"
+        style="@style/genericView"
+        android:text="Редагувати" />
+
+    <Button
+        android:id="@+id/buttonCancel"
+        style="@style/genericView"
+        android:text="@string/button_cancel" />
+</LinearLayout>

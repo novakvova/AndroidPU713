@@ -3,7 +3,7 @@ package com.example.testapp.user.dtoUser;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class UserDTO {
+public class UserEditDTO {
     @SerializedName("id")
     @Expose
     private int id;
@@ -13,44 +13,43 @@ public class UserDTO {
     @SerializedName("image")
     @Expose
     private String url;
-    @SerializedName("name")
+    @SerializedName("firstname")
     @Expose
-    private String name;
+    private String firstname;
+    @SerializedName("lastname")
+    @Expose
+    private String lastname;
     @SerializedName("phone")
     @Expose
     private String phone;
-
     @SerializedName("birthDate")
     @Expose
     private String birthDate;
     @SerializedName("address")
     @Expose
     private String address;
+    @SerializedName("imageBase64")
+    @Expose
+    private String imageBase64;
 
-    public UserDTO(int id, String email, String url, String name, String phone, String birthDate, String address) {
+
+    public UserEditDTO(int id, String email, String url, String firstname, String lastname, String phone, String birthDate, String address) {
         this.id = id;
         this.email = email;
         this.url = url;
-        this.name = name;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.phone = phone;
         this.birthDate = birthDate;
         this.address = address;
     }
 
-    public String getBirthDate() {
-        return birthDate;
+    public String getImageBase64() {
+        return imageBase64;
     }
 
-    public void setBirthDate(String birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
+    public void setImageBase64(String imageBase64) {
+        this.imageBase64 = imageBase64;
     }
 
     public int getId() {
@@ -77,12 +76,20 @@ public class UserDTO {
         this.url = url;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getPhone() {
@@ -93,15 +100,33 @@ public class UserDTO {
         this.phone = phone;
     }
 
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     @Override
     public String toString() {
-        return "UserDTO{" +
+        return "UserEditDTO{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", url='" + url + '\'' +
-                ", name='" + name + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
                 ", phone='" + phone + '\'' +
+                ", birthDate='" + birthDate + '\'' +
+                ", address='" + address + '\'' +
                 '}';
     }
-
 }
